@@ -41,3 +41,9 @@ Run the API once implementation is in place:
 ```bash
 uvicorn src.main:app --reload
 ```
+
+Run the deterministic end-to-end demo harness:
+
+```bash
+python -m src.main --demo
+```
