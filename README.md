@@ -39,7 +39,7 @@ ResQRoute AI is engineered from the ground up to showcase **technical depth and 
 
 ## 🏗️ System Architecture
 
-```text
+~~~text
  [ IoT Telemetry Injection ]
             │
             ▼
@@ -66,54 +66,67 @@ ResQRoute AI is engineered from the ground up to showcase **technical depth and 
 ┌────────────────────────────────────────┐
 │   Streamlit Command Center Frontend    │ -> Real-time Folium Map Visualization
 └────────────────────────────────────────┘
-💻 Technical Stack
-Language: Python 3.11+
+~~~
 
-Frameworks & API: FastAPI, Uvicorn, Pydantic
+---
 
-Data Processing & Analytics: Pandas, NumPy
+## 💻 Technical Stack
 
-Graph Algorithms: NetworkX
+* **Language:** Python 3.11+
+* **Frameworks & API:** FastAPI, Uvicorn, Pydantic
+* **Data Processing & Analytics:** Pandas, NumPy
+* **Graph Algorithms:** NetworkX
+* **Agentic Framework:** LangChain / Structured JSON Output Layer
+* **Frontend Visualization:** Streamlit, Folium, Streamlit-Folium
+* **Quality Assurance:** Pytest
 
-Agentic Framework: LangChain / Structured JSON Output Layer
+---
 
-Frontend Visualization: Streamlit, Folium, Streamlit-Folium
+## 🚀 Quick Start Guide
 
-Quality Assurance: Pytest
-
-🚀 Quick Start Guide
-1. Installation & Environment Configuration
+### 1. Installation & Environment Configuration
 Clone the repository and set up your local development environment:
 
-Bash
+~~~bash
 # Clone the repository
-git clone [https://github.com/Hackatona8/resqroute-ai.git](https://github.com/Hackatona8/resqroute-ai.git)
+git clone https://github.com/Hackatona8/resqroute-ai.git
 cd resqroute-ai
 
 # Set up local dependencies
 python -m pip install -r requirements.txt
-2. Launch the FastAPI Core Engine
+~~~
+
+### 2. Launch the FastAPI Core Engine
 Start the background ingestion server and computational pipeline:
 
-Bash
+~~~bash
 python -m src.main
-The API will actively listen on http://localhost:8000 with interactive Swagger docs accessible at /docs.
+~~~
+*The API will actively listen on `http://localhost:8000` with interactive Swagger docs accessible at `/docs`.*
 
-3. Launch the Fleet Command Center
+### 3. Launch the Fleet Command Center
 In a separate terminal tab, spin up the visual frontend layer:
 
-Bash
+~~~bash
 python -m streamlit run src/frontend/app.py
-The command center interface will automatically boot in your browser at http://localhost:8501.
+~~~
+*The command center interface will automatically boot in your browser at `http://localhost:8501`.*
 
-🧪 Verification & Testing Suite
+---
+
+## 🧪 Verification & Testing Suite
+
 We maintain strict test-driven development metrics. Run the automated test suite to validate API contracts, route mutations, and agent generation pipelines:
 
-Bash
+~~~bash
 python -m pytest
-👥 Engineering & Leadership Team
-Piyush Goel — Public Relations Head, IEEE BVICAM Student Branch | MCA Candidate, BVICAM & BS Degree Scholar, IIT Madras
+~~~
 
-Divyansh Jha — Software Engineer at SAP Labs Bangalore | Mtech BITS Pilani
+---
 
-Built Boldly. Shipped for FAR AWAY Hackathon 2026.
+## 👥 Engineering & Leadership Team
+
+* **Piyush Goel** — Public Relations Head, IEEE BVICAM Student Branch | MCA Candidate, BVICAM & BS Degree Scholar, IIT Madras
+* **Divyansh Jha** — Software Engineer at SAP Labs Bangalore | Mtech BITS Pilani
+
+> *Built Boldly. Shipped for FAR AWAY Hackathon 2026.*
