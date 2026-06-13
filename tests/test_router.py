@@ -2,38 +2,36 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-
-from src.api.schemas import TelemetryPayload
-from src.engine.pipeline import TelemetryPipeline
+from src.api.schemas import CargoState
+from src.engine.router import DynamicRoutingEngine
 
 
-def test_pipeline_flags_escalating_risk_for_hot_follow_up_measurement() -> None:
-	pipeline = TelemetryPipeline(risk_threshold=0.35)
+def test_router_prefers_original_destination_when_cargo_is_stable() -> None:
+	engine = DynamicRoutingEngine()
 
-	pipeline.ingest(
-		TelemetryPayload(
-			truck_id="truck-202",
-			latitude=19.076,
-			longitude=72.8777,
-			internal_temp=4.5,
-			ambient_temp=27.0,
-			cargo_type="fresh_mangoes",
-			timestamp=datetime.now(tz=timezone.utc) - timedelta(hours=2),
-		)
-	)
-	result = pipeline.ingest(
-		TelemetryPayload(
-			truck_id="truck-202",
-			latitude=19.082,
-			longitude=72.885,
-			internal_temp=11.5,
-			ambient_temp=36.0,
-			cargo_type="fresh_mangoes",
-			timestamp=datetime.now(tz=timezone.utc),
-		)
+	decision = engine.recalculate_optimal_path(
+		current_node="farm_gate",
+		original_destination="regional_market",
+		cargo_status=CargoState.NORMAL,
 	)
 
-	assert result.records_processed == 2
-	assert result.risk_score >= 0.0
-	assert result.state.value in {"ELEVATED_RISK", "CRITICAL_SPOILAGE_RISK"}
+	assert decision.rerouted is False
+	assert decision.destination == "regional_market"
+	assert decision.path[0] == "farm_gate"
+	assert decision.path[-1] == "regional_market"
+
+
+def test_router_reroutes_to_nearest_alternative_buyer_when_critical() -> None:
+	engine = DynamicRoutingEngine()
+
+	decision = engine.recalculate_optimal_path(
+		current_node="farm_gate",
+		original_destination="regional_market",
+		cargo_status=CargoState.CRITICAL_SPOILAGE_RISK,
+	)
+
+	assert decision.rerouted is True
+	assert decision.destination in {"hub_north", "hub_central", "micro_hub_east", "buyer_fresh_mart", "buyer_green_coop", "buyer_urban_pop_up"}
+	assert decision.destination != "regional_market"
+	assert decision.path[0] == "farm_gate"
+	assert decision.path[-1] == decision.destination
